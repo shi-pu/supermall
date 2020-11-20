@@ -1,7 +1,7 @@
 <template>
   <div class="good-list-item">
     <!-- <img :src="goodsItem['show']['img']" alt=""> -->
-      <img :src="goodsItem.show.img" alt="">
+      <img :src="goodsItem.show.img" @load="imgload">
       <div>
         <p>{{goodsItem.title}}</p>
         <span class="price">{{goodsItem.price}}</span>
@@ -20,6 +20,11 @@ export default {
         return {}
       }
     }
+  },
+  methods: {
+    imgload() {
+      this.$bus.$emit('itemimgload')
+    }
   }
 }
 </script>
@@ -31,7 +36,7 @@ export default {
     text-align: center;
     font-size: 12px;
     display: inline-block;
-  }
+    }
   .good-list-item img{
     margin-top: 6px;
     width: 95%;

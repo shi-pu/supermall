@@ -1,5 +1,5 @@
 <template>
-  <div class="goods">
+  <div class="goods" style="background-color: white">
     <goodsListItem v-for = "item in goods" :goodsItem="item"/>
   </div>
 </template>

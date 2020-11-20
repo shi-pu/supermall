@@ -3,20 +3,31 @@
     <nav-bar class="sty">
       <div slot = "center">购物街</div>
     </nav-bar>
+    <TypeControl
+      :title = "['流行', '新款', '精选']"
+      @itemclick = "cpnclick"
+      class="fiexed"
+      style="padding-top: 44px"
+      v-show = "fixed"
+      ref="tabcontorl1">
+    </TypeControl>
     <scroll class="content" ref = "scroll"
     :probe-type="3"
     @scroll = "contentScroll"
     :pullUpLoad="true"
     @moreLoad="moreload">
-      <home-swiper :banner = "banners"/>
-      <HomeRecommendView :recommend = "recommends"/>
+      <home-swiper :banner = "banners" @swiperload="swiperload"/>
+      <HomeRecommendView :recommend = "recommends" @recomload="recomload"/>
       <Home-feature/>
-      <TypeControl class="type-control"
+      <TypeControl
       :title = "['流行', '新款', '精选']"
-      @itemclick = "cpnclick"></TypeControl>
+      @itemclick = "cpnclick"
+      ref="tabcontorl2"
+      ></TypeControl>
       <goodList :goods = "showGoods"/>
     </scroll>
     <backtop @click.native = "backClick" v-show = 'backTopisShow'/>
+    <div class="bottomtext">上拉加载更多...</div>
   </div>
 </template>
 
@@ -45,7 +56,11 @@
           'sell': {page: 0, list: []}
         },
         type: 'pop',
-        backTopisShow: false
+        backTopisShow: false,
+        tabTop: 0,
+        fixed: false,
+        swiperLoad: false,
+        recomLoad: true,
       }
     },
     components: {
@@ -60,9 +75,17 @@
     },
     created() {
       this.GetHomeMultidata(),
+      // 请求商品数据
       this.GetHomeGoods('pop')
       this.GetHomeGoods('new')
       this.GetHomeGoods('sell')
+    },
+    mounted() {
+      //监听图片加载完成
+      const refresh = this.debounce(this.$refs.scroll.refresh,30)
+      this.$bus.$on('itemimgload', () => {
+        refresh()
+      })
     },
     computed: {
       showGoods() {
@@ -70,8 +93,18 @@
       }
     },
     methods: {
-      // 网络请求
+      // 节流
+      debounce(func, delay) {
+        let timer = null
+        return function () {
+          if (timer) clearTimeout(timer)
+          timer = setTimeout(() => {
+            func()
+          }, delay)
+        }
+      },
 
+      // 网络请求
       GetHomeMultidata() {
         getHomeMultidata().then(res => {
           this.banners = res.data.data.banner.list
@@ -82,7 +115,7 @@
       GetHomeGoods(type) {
         const page = this.goods[type].page + 1
         getHomeGoods(type, page).then(res => {
-          console.log(res);
+          // console.log(res);
           this.goods[type].list.push(...res.data.data.list)
           this.goods[type].page += 1
         })
@@ -91,17 +124,30 @@
       //点击事件
       cpnclick(index) {
         this.type = Object.keys(this.goods)[index]
+        this.$refs.tabcontorl1.currentIndex = index
+        this.$refs.tabcontorl2.currentIndex = index
       },
       backClick() {
         this.$refs.scroll.scrollTo(0, 0)
       },
       contentScroll(position) {
         this.backTopisShow = (-position.y) > 1000
+        this.fixed = (-position.y) > this.tabTop - 44
       },
       moreload() {
         this.GetHomeGoods(this.type)
-        //刷新
-        this.$refs.scroll.scroll.refresh()
+        this.showbottomtext = true
+      },
+      swiperload() {
+        this.swiperLoad = true
+      },
+      recomload(){
+        this.recomLoad = true
+        if (this.swiperLoad&&this.recomLoad) {
+          if(this.$refs.tabcontorl2.$el.offsetTop>0){
+            this.tabTop = this.$refs.tabcontorl2.$el.offsetTop
+          }
+        }
       }
     }
   }
@@ -114,7 +160,8 @@
     width: 100%;
     font-size: 20px;
     position: fixed;
-    z-index: 100;
+    z-index: 2;
+    margin-bottom: 500px
   }
   .content{
     position: fixed;
@@ -123,5 +170,18 @@
     left: 0;
     right: 0;
     /* overflow: hidden; */
+  }
+  .fiexed{
+    position: relative;
+    z-index: 1;
+    padding-bottom: 3px
+  }
+  .bottomtext{
+    position: fixed;
+    bottom: 75px;
+    width: 100%;
+    text-align: center;
+    z-index: -1;
+    font-size: 13px
   }
 </style>

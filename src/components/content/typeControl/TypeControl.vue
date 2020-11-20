@@ -54,8 +54,4 @@ export default {
     border-bottom: 3px solid var(--color-high-text);
     padding-bottom: 5px
   }
-  .active span {
-    border-bottom: 3px solid var(--color-high-text);
-    padding-bottom: 5px
-  }
 </style>

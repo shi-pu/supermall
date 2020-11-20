@@ -2,7 +2,7 @@
   <div class="recommend">
     <div v-for = "item in recommend" class="recommend-item">
       <a :href="item.link">
-        <img :src="item.image"/>
+        <img :src="item.image" @load="imageload"/>
         <div>{{item.title}}</div>
       </a>
     </div>
@@ -17,6 +17,19 @@ export default {
       type: Array,
       default() {
         return []
+      }
+    }
+  },
+  data() {
+    return{
+      loadComp: false
+    }
+  },
+  methods: {
+    imageload() {
+      if(!this.loadComp){
+        this.$emit('recomload')
+        this.loadComp = true
       }
     }
   }
