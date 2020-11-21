@@ -10,6 +10,8 @@ const Home = () => import('../views/home/Home')
 const Category = () => import('../views/category/Category')
 const Cart = () => import('../views/cart/Cart')
 const Profile = () => import('../views/profile/Profile')
+const Detail = () => import('../views/detail/Detail')
+
 
 const routes = [
   {
@@ -20,7 +22,7 @@ const routes = [
     path: '/home',
     component: Home,
     meta: {
-      title: "主页"
+      title: "首页"
     }
   },
   {
@@ -43,12 +45,22 @@ const routes = [
     meta: {
       title: "我的"
     }
+  },
+  {
+    path: '/detail/:iid',
+    component: Detail,
+    meta: {
+      title: "详情"
+    }
   }
 ]
 const router = new VueRouter({
   routes,
   mode: 'history'
 })
-
+router.beforeEach((to,from,next) => {
+  document.title = to.matched[0].meta.title
+  next()
+})
 //导出
 export default router

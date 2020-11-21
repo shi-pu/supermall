@@ -43,6 +43,7 @@
   import backtop from 'components/content/backTop/BackTop'
 
   import {getHomeMultidata, getHomeGoods} from '@/network/home'
+  import {debounce} from '@/common/utils.js'
 
   export default {
     name: 'Home',
@@ -61,6 +62,7 @@
         fixed: false,
         swiperLoad: false,
         recomLoad: true,
+        leftposition: 0
       }
     },
     components: {
@@ -73,6 +75,13 @@
       scroll,
       backtop
     },
+    activated() {
+      this.$refs.scroll.scrollTo(0, this.leftposition, 0)
+      this.$refs.scroll.refresh()
+    },
+    deactivated() {
+      this.leftposition = this.$refs.scroll.gety()
+    },
     created() {
       this.GetHomeMultidata(),
       // 请求商品数据
@@ -82,7 +91,7 @@
     },
     mounted() {
       //监听图片加载完成
-      const refresh = this.debounce(this.$refs.scroll.refresh,30)
+      const refresh = debounce(this.$refs.scroll.refresh,30)
       this.$bus.$on('itemimgload', () => {
         refresh()
       })
@@ -93,17 +102,6 @@
       }
     },
     methods: {
-      // 节流
-      debounce(func, delay) {
-        let timer = null
-        return function () {
-          if (timer) clearTimeout(timer)
-          timer = setTimeout(() => {
-            func()
-          }, delay)
-        }
-      },
-
       // 网络请求
       GetHomeMultidata() {
         getHomeMultidata().then(res => {

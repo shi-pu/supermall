@@ -1,12 +1,12 @@
 <template>
   <div class="good-list-item">
     <!-- <img :src="goodsItem['show']['img']" alt=""> -->
-      <img :src="goodsItem.show.img" @load="imgload">
-      <div>
-        <p>{{goodsItem.title}}</p>
-        <span class="price">{{goodsItem.price}}</span>
-        <span class="cfav">{{goodsItem.cfav}}</span>
-      </div>
+    <img :src="goodsItem.show.img" @load="imgload" @click="itemclick">
+    <div>
+      <p>{{goodsItem.title}}</p>
+      <span class="price">{{goodsItem.price}}</span>
+      <span class="cfav">{{goodsItem.cfav}}</span>
+    </div>
   </div>
 </template>
 
@@ -24,6 +24,9 @@ export default {
   methods: {
     imgload() {
       this.$bus.$emit('itemimgload')
+    },
+    itemclick() {
+      this.$router.push('/detail/' + this.goodsItem.iid).catch(err => err)
     }
   }
 }

@@ -16,11 +16,18 @@ export default {
     }
   },
   methods: {
+    // 将自身的scrollTo转化为scrollTo方式
     scrollTo(x, y, time = 500) {
+      // 先检查scroll是否存在，若存在就执行this.scroll.scrollTo(x, y ,time)
       this.scroll && this.scroll.scrollTo(x, y ,time)
     },
+    // 将自身的refresh转化为refresh方法
     refresh() {
       this.scroll && this.scroll.refresh()
+    },
+
+    gety() {
+      return this.scroll ? this.scroll.y : 0
     }
   },
   props: {
@@ -41,10 +48,13 @@ export default {
       pullUpLoad: this.pullUpLoad,
       click: true
     })
+
+    //监听位置
     this.scroll.on('scroll', (position) => {
-      // console.log(position);
       this.$emit('scroll', position)
     })
+
+    //监听是否到底部
     this.scroll.on('pullingUp', () => {
       this.$emit('moreLoad')
       setTimeout(() => {
