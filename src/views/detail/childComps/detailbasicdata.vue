@@ -49,7 +49,9 @@ export default {
   props: {
     goods: {
       type: Object,
-      default: {}
+      default() {
+        return {}
+      }
     }
   }
 }

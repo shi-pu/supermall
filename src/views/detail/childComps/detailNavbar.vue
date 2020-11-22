@@ -27,7 +27,8 @@ export default {
   },
   methods: {
     btnclick(index) {
-      this.currentindex = index
+      this.currentindex = index;
+      this.$emit('clicknavbar', index)
     },
     btnback() {
       this.$router.back()

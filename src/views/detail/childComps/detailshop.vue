@@ -44,7 +44,9 @@ export default {
   props: {
     shop: {
       type: Object,
-      default: {}
+      default() {
+        return {}
+      }
     }
   }
 }
@@ -113,7 +115,7 @@ export default {
     text-align: center;
     position: relative;
     line-height: 30px;
-    left: -70px;
+    left: -74px;
     top: 15px;
     background-color: #F0F0F0;
     display: inline-block;
