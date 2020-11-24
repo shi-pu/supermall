@@ -25,9 +25,11 @@ export default {
   },
   methods: {
     _btnclick(){
-      this.isShow = !this.isShow
-      for(let item of this.cartList) {
-        item.show = !item.show
+      if(this.cartList.length > 0){
+        this.isShow = !this.isShow
+        for(let item of this.cartList) {
+          item.show = !item.show
+        }
       }
     }
   },
