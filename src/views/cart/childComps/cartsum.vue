@@ -1,7 +1,8 @@
 <template>
   <div class="cartsum">
     <span style="width: 55px;padding-left:5px">全选:</span>
-    <img v-if= "isShow" src="~assets/img/cart/xuanzhong.svg"
+    {{comp}}
+    <img v-if= "isShow"  src="~assets/img/cart/xuanzhong.svg"
     class="svg" @click="_btnclick">
     <img v-else src="~assets/img/cart/xuanzhong1.svg"
     class="svg" @click="_btnclick">
@@ -28,9 +29,10 @@ export default {
       if(this.cartList.length > 0){
         this.isShow = !this.isShow
         for(let item of this.cartList) {
-          item.show = !item.show
+          item.show = this.isShow
         }
       }
+
     }
   },
   computed: {
@@ -45,6 +47,20 @@ export default {
         }
       }
       return parseFloat(sums).toFixed(2)
+    },
+    comp() {
+      let sent = true
+      for(let item of this.cartList) {
+        if(!item.show){
+          sent = false
+          break
+        }
+      }
+      if(!sent){
+        this.isShow = false
+      }else{
+        this.isShow = true
+      }
     }
   }
 }

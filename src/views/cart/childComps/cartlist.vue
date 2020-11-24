@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <cartsum :cartList="cartList"/>
+    <cartsum ref="cartsum" :cartList="cartList"/>
   </div>
 </template>
 
