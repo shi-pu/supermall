@@ -1,5 +1,10 @@
 <template>
   <div class="cartsum">
+    <span style="width: 55px;padding-left:5px">全选:</span>
+    <img v-if= "isShow" src="~assets/img/cart/xuanzhong.svg"
+    class="svg" @click="_btnclick">
+    <img v-else src="~assets/img/cart/xuanzhong1.svg"
+    class="svg" @click="_btnclick">
     <div class="countsum">合计: {{sum}}</div>
     <div class="buysum">去结算({{cartList.length}})</div>
   </div>
@@ -11,6 +16,19 @@ export default {
   props: {
     cartList: {
       type: Array
+    }
+  },
+  data() {
+    return{
+      isShow: true
+    }
+  },
+  methods: {
+    _btnclick(){
+      this.isShow = !this.isShow
+      for(let item of this.cartList) {
+        item.show = !item.show
+      }
     }
   },
   computed: {
@@ -40,6 +58,10 @@ export default {
   right: 0;
   display: flex;
   line-height: 41px
+}
+.cartsum img {
+  padding-left: 3px;
+  width: 25px;
 }
 .countsum {
   width: 70%;

@@ -44,7 +44,7 @@ export default {
 <style>
   #cartlist{
     margin-top: 44px;
-    margin-bottom: 85px
+    margin-bottom: 90px
   }
   .cart_item{
     width: 100%;
