@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="_Right">
-      <span class="_R_L">加入购物车</span>
+      <span class="_R_L" @click="add_to_cart">加入购物车</span>
       <span class="_R_R">购买</span>
     </div>
   </div>
@@ -23,7 +23,12 @@
 
 <script>
 export default {
-  name: 'detailtabbar'
+  name: 'detailtabbar',
+  methods: {
+    add_to_cart() {
+      this.$emit('add_cart')
+    }
+  }
 }
 </script>
 

@@ -11,7 +11,7 @@ const Category = () => import('../views/category/Category')
 const Cart = () => import('../views/cart/Cart')
 const Profile = () => import('../views/profile/Profile')
 const Detail = () => import('../views/detail/Detail')
-
+const Pop = () => import('../views/category/childComps/pop')
 
 const routes = [
   {
@@ -30,7 +30,20 @@ const routes = [
     component: Category,
     meta: {
       title: "分类"
-    }
+    },
+    children:[
+      // {
+      //   path: '',
+      //   redirect: 'pop/:index'
+      // },
+      {
+        path: 'pop',
+        component: Pop,
+        meta: {
+          title: "流行"
+        }
+      }
+    ]
   },
   {
     path: '/cart',
@@ -58,9 +71,9 @@ const router = new VueRouter({
   routes,
   mode: 'history'
 })
-router.beforeEach((to,from,next) => {
-  document.title = to.matched[0].meta.title
-  next()
-})
+// router.beforeEach((to,from,next) => {
+//   document.title = to.matched[0].meta.title
+//   next()
+// })
 //导出
 export default router

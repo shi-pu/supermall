@@ -1,170 +1,92 @@
 <template>
-  <div class = "content">
-    <ul>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-      <li>分类列表</li>
-
-    </ul>
+  <div class = "category">
+    <navBar class="styy">
+      <div slot = "center">商品分类</div>
+    </navBar>
+    <leftmenu @c_menuclick='c_menuclick'/>
+    <scroll id="rightgoods" ref="scroll"
+    :pullUpLoad="true"
+    @moreLoad="moreload">
+      <rightgoods :categorygoods="showGoods"
+      @c_img_load="c_img_load"/>
+    </scroll>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import navBar from 'components/common/navbar/navBar'
+import leftmenu from './childComps/leftmenu'
+import rightgoods from './childComps/rightgoods'
+import scroll from 'components/common/scroll/Scroll'
+
+
+import {getCategoryGoods} from '@/network/category'
 export default {
   name: 'Category',
-  mounted() {
-    //默认下不能监听位置
-    //probe侦测,当probeType为0和1时不侦测，
-    //为2时，在手指滚动过程中检测，而在惯性 下不侦测
-    //为3时，只要滚动都侦测
-    const scroll = new BScroll(document.querySelector('.content'), {
-      probeType: 3,
-      pullUpLoad:true
-    })
-    scroll.on('scroll', (position) => {
-      // console.log(position);
-    })
-    scroll.on('pullingUp', () => {
-      console.log("加载更多");
-
-      setTimeout(() => {
-        scroll.finishPullUp()
-      },3000)
-    })
+  data() {
+    return {
+      category_name: [],
+      page: 0,
+      kind: 'pop',
+      goods: {
+        'pop': {page: 0, list: []},
+        'new': {page: 0, list: []},
+        'sell': {page: 0, list: []}
+      },
+      kind_list: ['pop', 'new', 'sell']
+    }
+  },
+  components: {
+    navBar,
+    leftmenu,
+    rightgoods,
+    scroll
+  },
+  created() {
+    this.GetCategoryGoods('pop')
+    this.GetCategoryGoods('new')
+    this.GetCategoryGoods('sell')
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.kind].list
+    }
+  },
+  methods: {
+    GetCategoryGoods(kind){
+      this.goods[kind].page += 1
+      getCategoryGoods(kind,this.goods[kind].page).then(res => {
+        this.goods[kind].list.push(...res.data.data.list)
+      })
+    },
+    c_img_load() {
+      this.$refs.scroll.refresh()
+    },
+    moreload() {
+      this.GetCategoryGoods(this.kind)
+    },
+    c_menuclick(index) {
+      this.kind = this.kind_list[index]
+    }
   }
 }
 </script>
 
 <style scoped>
-.content{
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #ddd;
-  overflow: hidden;
-}
+  .styy {
+    background-color: var(--color-tint);
+    color: white;
+    width: 100%;
+    font-size: 20px;
+    position: fixed;
+    z-index: 2;
+    margin-bottom: 500px
+  }
+  #rightgoods{
+    position: fixed;
+    left: 30%;
+    bottom: 49px;
+    top: 44px;
+    right: 0;
+  }
 </style>

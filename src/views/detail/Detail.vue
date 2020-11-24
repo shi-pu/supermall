@@ -18,7 +18,9 @@
       <goodList :goods='recommends'></goodList>
       <div class="bottom-line"></div>
     </scroll>
-  <detailtabbar></detailtabbar>
+    <backtop @click.native = 'backClick' v-show = 'backTopisShow'></backtop>
+    <detailtabbar @add_cart="add_cart"></detailtabbar>
+
   </div>
 </template>
 <script>
@@ -35,8 +37,11 @@ import goodList from 'components/content/goods/goodsList'
 
 import {getDetail, Goods, shop, GoodsParam, getRecommend} from '@/network/detail'
 import {debounce} from '@/common/utils.js'
+
+import {backTopMixin} from "@/common/mixin"
 export default {
   name: 'Detail',
+  mixins:[backTopMixin],
   data() {
     return{
       iid: 0,
@@ -70,7 +75,10 @@ export default {
     }, 100)
   },
   mounted() {
-
+    const refresh = debounce(this.$refs.scroll.refresh,30)
+    this.$bus.$on('detailitemimgload', () => {
+      refresh()
+    })
   },
   components: {
     detailnavbar,
@@ -82,7 +90,7 @@ export default {
     detailparams,
     commentinfo,
     goodList,
-    detailtabbar
+    detailtabbar,
   },
   methods: {
     GetDetail(type) {
@@ -137,6 +145,8 @@ export default {
       }else if (positiony > this.themeTopY[1]){
         this.$refs.detailnavba.currentindex = 0
       }
+      this.backTopisShow = (-positiony) > 1000
+      this.fixed = (-positiony) > this.tabTop - 44
     },
     clicknavbar(index) {
       switch (index) {
@@ -153,9 +163,17 @@ export default {
           this.$refs.scroll.scrollTo(0, this.themeTopY[3], 0)
           break;
       }
+    },
+    add_cart() {
+      const product = {}
+      product.image = this.banners[0]
+      product.title = this.goods.title
+      product.desc = this.goods.desc
+      product.price = this.goods.realPrice
+      product.iid = this.iid
+      this.$store.commit('addCart', product)
     }
   }
-
 }
 </script>
 

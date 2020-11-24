@@ -28,7 +28,12 @@ export default {
   },
   methods: {
     imgload() {
-      this.$bus.$emit('itemimgload')
+      if(this.$route.path.indexOf('/home') !== -1) {
+        this.$bus.$emit('itemimgload')
+      }else if (this.$route.path.indexOf('/detail') !== -1) {
+        this.$bus.$emit('detailitemimgload')
+      }
+
     },
     itemclick() {
       this.$router.push('/detail/' + this.goodsItem.iid).catch(err => err)
