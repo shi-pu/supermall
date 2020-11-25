@@ -87,7 +87,7 @@ export default {
     color: orange
   }
   ._price span{
-    padding-left: 60%;
+    padding-left: 55%;
     color: black
   }
 </style>

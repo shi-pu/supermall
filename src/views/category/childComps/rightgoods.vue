@@ -24,7 +24,8 @@ export default {
   },
   methods: {
     c_img_load() {
-      this.$emit('c_img_load')
+        this.$emit('c_img_load')
+
     },
     c_btnclick(item) {
       this.$router.push('/detail/' + item.iid)
@@ -42,6 +43,7 @@ export default {
     display: inline-block;
   }
   .rightgoods .r-item img{
+    position: relative;
     width: 80%;
     border: 1px solid #F0F0F0;
     border-radius: 60px;

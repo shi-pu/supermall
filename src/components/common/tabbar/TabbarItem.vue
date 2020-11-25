@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     isShow(){
-      return this.$route.path == this.path
+      return this.$route.path.indexOf(this.path) !== -1
     },
     activeStyle(){
       return this.isShow ? {color: this.activeColor} : {}

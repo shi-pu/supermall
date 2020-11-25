@@ -12,6 +12,8 @@ const Cart = () => import('../views/cart/Cart')
 const Profile = () => import('../views/profile/Profile')
 const Detail = () => import('../views/detail/Detail')
 const Pop = () => import('../views/category/childComps/pop')
+const Sell = () => import('../views/category/childComps/sell')
+const New = () => import('../views/category/childComps/new1')
 
 const routes = [
   {
@@ -32,17 +34,22 @@ const routes = [
       title: "分类"
     },
     children:[
-      // {
-      //   path: '',
-      //   redirect: 'pop/:index'
-      // },
+      {
+        path: '',
+        redirect: '/category/pop',
+      },
       {
         path: 'pop',
-        component: Pop,
-        meta: {
-          title: "流行"
-        }
+        component: Pop},
+      {
+          path: 'new',
+        component: New
+      },
+        {
+        path: 'sell',
+        component: Sell
       }
+
     ]
   },
   {

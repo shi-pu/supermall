@@ -80,9 +80,14 @@
     },
     deactivated() {
       this.leftposition = this.$refs.scroll.gety()
+
+    },
+    destroyed(){
+      console.log("destroyed");
     },
     created() {
-      this.GetHomeMultidata(),
+      // this.$refs.scroll.refresh()
+      this.GetHomeMultidata()
       // 请求商品数据
       this.GetHomeGoods('pop')
       this.GetHomeGoods('new')
@@ -140,7 +145,7 @@
       recomload(){
         this.recomLoad = true
         if (this.swiperLoad&&this.recomLoad) {
-          if(this.$refs.tabcontorl2.$el.offsetTop>0){
+          if(this.$refs.tabcontorl2.$el.offsetTop > -10){
             this.tabTop = this.$refs.tabcontorl2.$el.offsetTop
           }
         }

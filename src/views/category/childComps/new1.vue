@@ -14,7 +14,7 @@ export default {
   name: 'sell',
   data() {
     return{
-      currentindex: 2,
+      currentindex: 1,
       kind_list: ['pop', 'new', 'sell'],
       goods: {
         'pop': {page: 0, list: []},

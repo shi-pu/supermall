@@ -7,7 +7,7 @@
     <img v-else src="~assets/img/cart/xuanzhong1.svg"
     class="svg" @click="_btnclick">
     <div class="countsum">合计: {{sum}}</div>
-    <div class="buysum">去结算({{cartList.length}})</div>
+    <div class="buysum">去结算({{isSelect}})</div>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return{
-      isShow: true
+      isShow: true,
     }
   },
   methods: {
@@ -32,10 +32,18 @@ export default {
           item.show = this.isShow
         }
       }
-
     }
   },
   computed: {
+    isSelect() {
+      let selected = 0
+      for(let item of this.cartList) {
+        if(item.show) {
+          selected += 1
+        }
+      }
+      return selected
+    },
     sum() {
       let sums = 0
       if(this.cartList.length === 0){
