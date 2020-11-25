@@ -12,7 +12,11 @@
         <div class="_title _title_d">{{item.desc}}</div>
         <div class="_price">
           ￥{{item.price}}
+        </div>
+        <div class="jiajian">
+          <span class="span" @click="_count(index)">-</span>
           <span>x{{item.count}}</span>
+          <span @click="item.count++">+</span>
         </div>
       </div>
     </div>
@@ -36,6 +40,11 @@ export default {
   methods: {
     _btnclick(index) {
       this.cartList[index].show = !this.cartList[index].show
+    },
+    _count(index) {
+      if(this.cartList[index].count > 1){
+        this.cartList[index].count--
+      }
     }
   }
 }
@@ -86,8 +95,18 @@ export default {
     margin-left: 5px;
     color: orange
   }
-  ._price span{
-    padding-left: 55%;
-    color: black
+
+  .jiajian{
+    color: black;
+    position: relative;
+    left: 60%;
+    padding-bottom: 0px;
+    height: 20px;
+    width: 70px;
+    text-align: center;
+    line-height: 20px
+  }
+  .jiajian span {
+    margin-left: 8px
   }
 </style>

@@ -3,6 +3,7 @@
     <detailnavbar class="detailnavba"
     @clicknavbar="clicknavbar"
     ref="detailnavba"></detailnavbar>
+    <div v-show = "isShow" class="model">添加购物车成功</div>
     <scroll class="de-scroll"
     ref="scroll"
     :probeType = "3"
@@ -55,7 +56,8 @@ export default {
       recommends: [],
       themeTopY:[0, 0, 0, 0],
       getThemeTopY: null,
-      newrefresh: null
+      newrefresh: null,
+      isShow: false
     }
   },
   created() {
@@ -171,13 +173,36 @@ export default {
       product.desc = this.goods.desc
       product.price = this.goods.realPrice
       product.iid = this.iid
-      this.$store.commit('addCart', product)
+      // this.$store.commit('addCart', product)
+      this.$store.dispatch('addCart', product).then(
+        res => {
+        document.getElementsByClassName('model')[0].innerText = res
+        this.isShow = true
+        let model1 = setTimeout(() => {
+          this.isShow = false
+        }, 1000)}
+      )
     }
   }
 }
 </script>
 
 <style scoped>
+.model{
+  width: 140px;
+  height: 35px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background-color: black;
+  color: white;
+  opacity: 0.5;
+  margin-left: -60px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 20px;
+  z-index: 3
+}
   #detail{
     position: relative;
     z-index: 2;

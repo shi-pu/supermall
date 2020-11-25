@@ -1,6 +1,6 @@
 <template>
   <div class="detailtabbar">
-    <div v-show = "isShow" class="model">添加购物车成功</div>
+
     <div class="_Left">
       <div class="kefu">
         <img src="~assets/img/detail/kefu.svg" alt="">
@@ -27,16 +27,11 @@ export default {
   name: 'detailtabbar',
   data() {
     return{
-      isShow: false
     }
   },
   methods: {
     add_to_cart() {
       this.$emit('add_cart')
-      this.isShow = true
-      let model1 = setTimeout(() => {
-        this.isShow = false
-      }, 1000)
     }
   }
 }
@@ -86,19 +81,5 @@ export default {
     background-color: deeppink;
     color: white
   }
-  .model{
-    width: 140px;
-    height: 35px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    background-color: black;
-    color: white;
-    opacity: 0.5;
-    margin-left: -60px;
-    line-height: 35px;
-    text-align: center;
-    border-radius: 20px;
-    animation: dialogSlipToUP 500ms ease 1 forwards
-  }
+
 </style>
